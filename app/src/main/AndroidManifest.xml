@@ -12,7 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThermoLedMobileClient">
         <activity
-            android:name=".MainActivity"
+            android:name=".FullAccess"
+            android:parentActivityName=".login">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".login" />
+        </activity>
+        <activity
+            android:name=".login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
