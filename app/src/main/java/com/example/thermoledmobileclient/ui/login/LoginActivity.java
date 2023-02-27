@@ -25,11 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thermoledmobileclient.MainActivity;
+import com.example.thermoledmobileclient.ProActivity;
 import com.example.thermoledmobileclient.R;
 import com.example.thermoledmobileclient.ui.login.LoginViewModel;
 import com.example.thermoledmobileclient.ui.login.LoginViewModelFactory;
 import com.example.thermoledmobileclient.databinding.ActivityLoginBinding;
 
+import com.example.thermoledmobileclient.data.model.LoggedInUser;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
@@ -133,16 +135,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + " " + model.getDisplayName();
-        Intent I=new Intent(getBaseContext(), MainActivity.class);
-//        I.putExtra("user", user);
+        Intent I;
+        LoginViewModel vm = new ViewModelProvider(this, new LoginViewModelFactory())
+                .get(LoginViewModel.class);
+        LoggedInUser user = vm.getLoggedInUser();
+        if(user.getAccess()<=1)
+            I = new Intent(getBaseContext(), ProActivity.class);
+        else
+            I = new Intent(getBaseContext(), MainActivity.class);
         startActivity(I);
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
-//        Intent I=new Intent(getBaseContext(), LoginActivity.class);
-////        I.putExtra("user", user);
-//        startActivity(I);
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }
